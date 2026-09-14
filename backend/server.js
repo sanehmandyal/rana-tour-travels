@@ -21,9 +21,26 @@ app.use(
     crossOriginResourcePolicy: false, // allow images to be loaded cross-origin by the frontend
   })
 );
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5000",
+  "https://rana-tour-travels.vercel.app",
+  process.env.CLIENT_URL,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app") ||
+        origin.endsWith(".onrender.com")
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
   })
 );

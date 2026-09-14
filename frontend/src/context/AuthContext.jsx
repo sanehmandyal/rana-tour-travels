@@ -12,6 +12,7 @@ export function AuthProvider({ children }) {
       const { data } = await client.get("/auth/me");
       setUser(data.user);
     } catch {
+      localStorage.removeItem("rana_token");
       setUser(null);
     } finally {
       setLoading(false);
@@ -24,12 +25,20 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const { data } = await client.post("/auth/login", { email, password });
+    if (data.token) {
+      localStorage.setItem("rana_token", data.token);
+    }
     setUser(data.user);
     return data.user;
   };
 
   const logout = async () => {
-    await client.post("/auth/logout");
+    localStorage.removeItem("rana_token");
+    try {
+      await client.post("/auth/logout");
+    } catch {
+      // ignore network errors on logout
+    }
     setUser(null);
   };
 
