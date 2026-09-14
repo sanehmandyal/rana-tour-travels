@@ -8,6 +8,7 @@ const {
   updateEnquiry,
   deleteEnquiry,
   stats,
+  trackEnquiry,
 } = require("../controllers/enquiryController");
 const { protect, adminOnly } = require("../middleware/auth");
 
@@ -18,6 +19,7 @@ const enquiryLimiter = rateLimit({
 });
 
 router.post("/", enquiryLimiter, createEnquiry);
+router.get("/track/:enquiryId", trackEnquiry);
 router.get("/stats/summary", protect, adminOnly, stats);
 router.get("/", protect, adminOnly, listEnquiries);
 router.get("/:id", protect, adminOnly, getEnquiry);

@@ -116,3 +116,26 @@ exports.stats = async (req, res) => {
   const total = await Enquiry.countDocuments({});
   res.json({ success: true, total, counts });
 };
+
+exports.trackEnquiry = async (req, res) => {
+  try {
+    const { enquiryId } = req.params;
+    if (!enquiryId) {
+      return res.status(400).json({ success: false, message: "Please provide an Enquiry ID." });
+    }
+    const enquiry = await Enquiry.findOne({
+      enquiryId: enquiryId.trim().toUpperCase(),
+    }).select("enquiryId fullName tripType travelDate pickupLocation dropLocation status quote createdAt");
+
+    if (!enquiry) {
+      return res.status(404).json({
+        success: false,
+        message: "No booking/enquiry found with this ID. Please check the ID (e.g. RTT-2026-XXXX).",
+      });
+    }
+
+    res.json({ success: true, enquiry });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Could not look up enquiry.", error: err.message });
+  }
+};

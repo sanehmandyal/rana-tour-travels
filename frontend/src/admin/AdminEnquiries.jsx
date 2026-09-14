@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import client from "../api/client";
+import StatusBadge from "../components/StatusBadge";
 
 const STATUSES = ["New", "Contacted", "Quote Sent", "Awaiting Confirmation", "Confirmed", "In Progress", "Completed", "Cancelled"];
 
@@ -53,10 +54,34 @@ export default function AdminEnquiries() {
         <button className="btn-primary !py-2 !px-5">Search</button>
       </form>
 
+      {/* Quick Status Filter Tabs */}
+      <div className="flex flex-wrap items-center gap-2 mb-4 text-xs font-semibold">
+        <span className="text-navy/50 mr-1">Quick Filters:</span>
+        {[
+          { label: "All", val: "" },
+          { label: "New", val: "New", badge: "bg-amber-100 text-amber-800" },
+          { label: "Confirmed", val: "Confirmed", badge: "bg-teal-100 text-teal-800" },
+          { label: "Completed", val: "Completed", badge: "bg-emerald-100 text-emerald-800 font-bold" },
+          { label: "Cancelled", val: "Cancelled", badge: "bg-rose-100 text-rose-800" },
+        ].map((tab) => (
+          <button
+            key={tab.label}
+            onClick={() => { setStatus(tab.val); setPage(1); }}
+            className={`px-3 py-1 rounded-full transition border ${
+              status === tab.val
+                ? "bg-navy text-white border-navy shadow-xs"
+                : "bg-white text-navy/70 border-slate-200 hover:bg-slate-50"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
       <div className="card overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-left text-navy/50 border-b bg-sky/50">
+            <tr className="text-left text-navy/50 border-b bg-slate-50">
               <th className="py-3 px-4">Enquiry ID</th>
               <th className="py-3 px-4">Name</th>
               <th className="py-3 px-4">Phone</th>
@@ -67,15 +92,21 @@ export default function AdminEnquiries() {
           </thead>
           <tbody>
             {items.map((e) => (
-              <tr key={e._id} className="border-b last:border-0 hover:bg-sky/30">
+              <tr key={e._id} className="border-b last:border-0 hover:bg-slate-50/60">
                 <td className="py-3 px-4">
-                  <Link to={`/admin/enquiries/${e._id}`} className="font-mono text-xs text-teal font-semibold">{e.enquiryId}</Link>
+                  <Link to={`/admin/enquiries/${e._id}`} className="font-mono text-xs text-teal font-semibold hover:underline">
+                    {e.enquiryId}
+                  </Link>
                 </td>
-                <td className="py-3 px-4">{e.fullName}</td>
-                <td className="py-3 px-4">{e.phone}</td>
-                <td className="py-3 px-4">{e.tripType}</td>
-                <td className="py-3 px-4"><span className="bg-sky text-teal px-2 py-0.5 rounded-full text-xs font-semibold">{e.status}</span></td>
-                <td className="py-3 px-4 text-navy/50">{new Date(e.createdAt).toLocaleDateString()}</td>
+                <td className="py-3 px-4 font-medium text-navy">{e.fullName}</td>
+                <td className="py-3 px-4 text-navy/75">{e.phone}</td>
+                <td className="py-3 px-4 text-navy/75">{e.tripType}</td>
+                <td className="py-3 px-4">
+                  <StatusBadge status={e.status} />
+                </td>
+                <td className="py-3 px-4 text-navy/50 text-xs">
+                  {new Date(e.createdAt).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" })}
+                </td>
               </tr>
             ))}
             {!loading && items.length === 0 && (

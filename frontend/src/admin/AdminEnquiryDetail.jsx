@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, CheckCircle2 } from "lucide-react";
 import client from "../api/client";
+import StatusBadge from "../components/StatusBadge";
 
 const STATUSES = ["New", "Contacted", "Quote Sent", "Awaiting Confirmation", "Confirmed", "In Progress", "Completed", "Cancelled"];
 
@@ -13,6 +14,7 @@ export default function AdminEnquiryDetail() {
   const [quoteNotes, setQuoteNotes] = useState("");
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState("");
+  const [statusMsg, setStatusMsg] = useState("");
 
   const load = () => {
     client.get(`/enquiries/${id}`).then(({ data }) => {
@@ -26,8 +28,14 @@ export default function AdminEnquiryDetail() {
   useEffect(() => { load(); }, [id]);
 
   const updateStatus = async (status) => {
-    await client.patch(`/enquiries/${id}`, { status });
-    load();
+    try {
+      await client.patch(`/enquiries/${id}`, { status });
+      setStatusMsg(`Status successfully updated to "${status}"!`);
+      load();
+      setTimeout(() => setStatusMsg(""), 3500);
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to update status");
+    }
   };
 
   const saveNotesAndQuote = async () => {
@@ -49,13 +57,41 @@ export default function AdminEnquiryDetail() {
 
   return (
     <div className="max-w-3xl">
-      <Link to="/admin/enquiries" className="flex items-center gap-1 text-navy/60 text-sm mb-4"><ArrowLeft size={14} /> Back to Enquiries</Link>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="font-display text-2xl font-bold text-navy">{enquiry.enquiryId}</h1>
-        <select value={enquiry.status} onChange={(e) => updateStatus(e.target.value)} className="input">
-          {STATUSES.map((s) => <option key={s}>{s}</option>)}
-        </select>
+      <Link to="/admin/enquiries" className="flex items-center gap-1 text-navy/60 text-sm mb-4 hover:underline">
+        <ArrowLeft size={14} /> Back to Enquiries
+      </Link>
+
+      <div className="card p-5 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-slate-200">
+        <div>
+          <div className="flex items-center gap-3 mb-1">
+            <h1 className="font-display text-2xl font-bold text-navy">{enquiry.enquiryId}</h1>
+            <StatusBadge status={enquiry.status} />
+          </div>
+          <p className="text-xs text-navy/50">Submitted on {new Date(enquiry.createdAt).toLocaleString("en-IN")}</p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <label className="text-xs font-bold text-navy/60 uppercase tracking-wider">Change Status:</label>
+          <select
+            value={enquiry.status}
+            onChange={(e) => updateStatus(e.target.value)}
+            className="input !py-1.5 !px-3 font-semibold text-sm bg-white border-slate-300"
+          >
+            {STATUSES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
+
+      {statusMsg && (
+        <div className="p-3 mb-6 bg-emerald-50 text-emerald-800 border border-emerald-300 rounded-xl text-xs font-semibold flex items-center gap-2 animate-fadeIn">
+          <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+          <span>{statusMsg}</span>
+        </div>
+      )}
 
       <div className="grid md:grid-cols-2 gap-4 mb-6">
         <Info label="Full Name" value={enquiry.fullName} />
