@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Manrope", system-ui, sans-serif;
+  color: #082b3a;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+:focus-visible {
+  outline: 3px solid #F5B83D;
+  outline-offset: 2px;
+}
+
+.container-app {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.btn-primary {
+  background-color: #082B3A;
+  color: white;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.btn-primary:hover { background-color: #087F78; transform: translateY(-1px); }
+
+.btn-accent {
+  background-color: #F28A16;
+  color: white;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.btn-accent:hover { background-color: #F5B83D; transform: translateY(-1px); }
+
+.btn-outline {
+  border: 1.5px solid #082B3A;
+  color: #082B3A;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+.btn-outline:hover { background-color: #EAF6F7; }
+
+.card {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #eef1ee;
+  box-shadow: 0 8px 24px rgba(8, 43, 58, 0.06);
+}
+
+.admin-edit-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #082B3A;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideLeft {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-slideLeft {
+  animation: slideLeft 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

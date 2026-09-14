@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFD28A" />
+      <stop offset="100%" stop-color="#F28A16" />
+    </linearGradient>
+    <linearGradient id="navyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#082B3A" />
+      <stop offset="100%" stop-color="#0A4F5C" />
+    </linearGradient>
+    <linearGradient id="roadGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#087F78" />
+      <stop offset="100%" stop-color="#082B3A" />
+    </linearGradient>
+  </defs>
+
+  <!-- Golden Sunrise Arc -->
+  <path d="M 120 220 A 140 140 0 0 1 380 220" fill="none" stroke="url(#sunGrad)" stroke-width="14" stroke-linecap="round" />
+
+  <!-- Mountain Peaks -->
+  <polygon points="120,265 175,175 235,265" fill="#0A4F5C" opacity="0.3" />
+  <polygon points="265,265 325,175 380,265" fill="#0A4F5C" opacity="0.3" />
+  
+  <!-- Central High Himalayan Peak Outline & Shape -->
+  <path d="M 85 270 L 160 170 L 210 230 L 250 145 L 305 225 L 340 170 L 415 270 Z" 
+        fill="none" stroke="url(#navyGrad)" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" />
+
+  <!-- Mountain Peak Ridges -->
+  <path d="M 250 145 L 250 215" stroke="url(#navyGrad)" stroke-width="6" stroke-linecap="round" />
+  <path d="M 160 170 L 180 220" stroke="url(#navyGrad)" stroke-width="5" stroke-linecap="round" />
+  <path d="M 340 170 L 325 220" stroke="url(#navyGrad)" stroke-width="5" stroke-linecap="round" />
+
+  <!-- Dynamic Winding Road -->
+  <path d="M 250 205 C 235 225, 230 235, 245 245 C 265 255, 275 265, 240 280 C 205 295, 140 300, 110 305" 
+        fill="none" stroke="url(#roadGrad)" stroke-width="20" stroke-linecap="round" />
+  <path d="M 250 205 C 235 225, 230 235, 245 245 C 265 255, 275 265, 240 280 C 205 295, 140 300, 110 305" 
+        fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="8,8" stroke-linecap="round" />
+
+  <!-- Base Baseline -->
+  <path d="M 90 270 L 410 270" stroke="url(#navyGrad)" stroke-width="10" stroke-linecap="round" />
+
+  <!-- Brand Typography -->
+  <text x="250" y="375" text-anchor="middle" font-family="'Plus Jakarta Sans', 'Manrope', system-ui, sans-serif" font-weight="900" font-size="76" letter-spacing="10" fill="#082B3A">RANA</text>
+  <text x="250" y="420" text-anchor="middle" font-family="'Plus Jakarta Sans', 'Manrope', system-ui, sans-serif" font-weight="700" font-size="25" letter-spacing="8" fill="#087F78">TOUR &amp; TRAVELS</text>
+  <text x="250" y="452" text-anchor="middle" font-family="'Manrope', system-ui, sans-serif" font-weight="600" font-size="14" letter-spacing="6" fill="#F28A16">HIMACHAL PRADESH</text>
+</svg>
