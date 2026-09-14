@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Save, CheckCircle2 } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Save, CheckCircle2, Trash2 } from "lucide-react";
 import client from "../api/client";
 import StatusBadge from "../components/StatusBadge";
 
@@ -8,11 +8,13 @@ const STATUSES = ["New", "Contacted", "Quote Sent", "Awaiting Confirmation", "Co
 
 export default function AdminEnquiryDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [enquiry, setEnquiry] = useState(null);
   const [notes, setNotes] = useState("");
   const [quoteAmount, setQuoteAmount] = useState("");
   const [quoteNotes, setQuoteNotes] = useState("");
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [msg, setMsg] = useState("");
   const [statusMsg, setStatusMsg] = useState("");
 
@@ -38,6 +40,20 @@ export default function AdminEnquiryDetail() {
     }
   };
 
+  const deleteThisEnquiry = async () => {
+    if (!window.confirm(`Are you sure you want to permanently delete enquiry ${enquiry.enquiryId}? This action cannot be undone.`)) {
+      return;
+    }
+    setDeleting(true);
+    try {
+      await client.delete(`/enquiries/${id}`);
+      navigate("/admin/enquiries");
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to delete enquiry.");
+      setDeleting(false);
+    }
+  };
+
   const saveNotesAndQuote = async () => {
     setSaving(true);
     try {
@@ -57,9 +73,19 @@ export default function AdminEnquiryDetail() {
 
   return (
     <div className="max-w-3xl">
-      <Link to="/admin/enquiries" className="flex items-center gap-1 text-navy/60 text-sm mb-4 hover:underline">
-        <ArrowLeft size={14} /> Back to Enquiries
-      </Link>
+      <div className="flex items-center justify-between mb-4">
+        <Link to="/admin/enquiries" className="flex items-center gap-1 text-navy/60 text-sm hover:underline font-medium">
+          <ArrowLeft size={15} /> Back to Enquiries
+        </Link>
+        <button
+          onClick={deleteThisEnquiry}
+          disabled={deleting}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-lg transition"
+          title="Delete Enquiry"
+        >
+          <Trash2 size={14} /> {deleting ? "Deleting..." : "Delete Enquiry"}
+        </button>
+      </div>
 
       <div className="card p-5 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-slate-200">
         <div>
