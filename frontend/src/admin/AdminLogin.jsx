@@ -42,9 +42,34 @@ export default function AdminLogin() {
             <h1 className="font-display text-xl font-bold text-navy">Admin Portal</h1>
             <p className="text-navy/50 text-xs mt-0.5">Authorized Team Sign In</p>
           </div>
-          <form onSubmit={submit} className="space-y-4">
-            <input className="input" type="email" placeholder="Admin email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-            <input className="input" type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+          <form onSubmit={submit} className="space-y-4" autoComplete="off">
+            {/* Decoy fields to intercept aggressive browser credential autofill */}
+            <input type="text" name="prevent_autofill_usr" style={{ display: "none" }} tabIndex={-1} aria-hidden="true" autoComplete="off" />
+            <input type="password" name="prevent_autofill_pwd" style={{ display: "none" }} tabIndex={-1} aria-hidden="true" autoComplete="new-password" />
+
+            <input
+              className="input"
+              type="email"
+              name="rtt_admin_user"
+              placeholder="Admin email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              required
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
+            />
+            <input
+              className="input"
+              type="password"
+              name="rtt_admin_secret"
+              placeholder="Password"
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              required
+              autoComplete="new-password"
+            />
             {error && <p className="text-red-600 text-sm">{error}</p>}
             <button className="btn-primary w-full flex items-center justify-center gap-2 !py-2.5" disabled={loading}>
               <Lock size={16} /> {loading ? "Signing in..." : "Sign In"}

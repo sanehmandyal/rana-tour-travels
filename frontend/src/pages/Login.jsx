@@ -26,9 +26,34 @@ export default function Login() {
   return (
     <div className="container-app py-20 max-w-md mx-auto">
       <h1 className="font-display text-3xl font-bold text-navy mb-6 text-center">Sign In</h1>
-      <form onSubmit={submit} className="card p-8 space-y-4">
-        <input className="input" type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-        <input className="input" type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} required />
+      <form onSubmit={submit} className="card p-8 space-y-4" autoComplete="off">
+        {/* Decoy fields to intercept aggressive browser credential autofill */}
+        <input type="text" name="prevent_autofill_usr" style={{ display: "none" }} tabIndex={-1} aria-hidden="true" autoComplete="off" />
+        <input type="password" name="prevent_autofill_pwd" style={{ display: "none" }} tabIndex={-1} aria-hidden="true" autoComplete="new-password" />
+
+        <input
+          className="input"
+          type="email"
+          name="user_login_email"
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          required
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
+        />
+        <input
+          className="input"
+          type="password"
+          name="user_login_secret"
+          placeholder="Password"
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          required
+          autoComplete="new-password"
+        />
         {error && <p className="text-red-600 text-sm">{error}</p>}
         <button className="btn-accent w-full" disabled={loading}>{loading ? "Signing in..." : "Sign In"}</button>
         <p className="text-sm text-center text-navy/60">

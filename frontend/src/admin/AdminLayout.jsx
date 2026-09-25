@@ -30,7 +30,7 @@ export default function AdminLayout() {
     <div className="flex flex-col h-full">
       <div className="px-5 py-5 border-b border-white/10">
         <BrandLogo variant="dark" size="sm" linkTo="/admin" showTagline={false} className="mb-1" />
-        <p className="text-white/40 text-xs truncate mt-1.5">{user?.email || "admin@ranatourandtravels.com"}</p>
+        <p className="text-white/40 text-xs truncate mt-1.5">{user?.email || "Administrator"}</p>
       </div>
       <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
         {NAV.map((item) => (
