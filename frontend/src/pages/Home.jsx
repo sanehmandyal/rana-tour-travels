@@ -128,11 +128,12 @@ export default function Home() {
                 onChange={(e) => setForm({ ...form, vehicleType: e.target.value })}
               >
                 <option value="">Any Vehicle</option>
-                <option>Sedan (Dzire/Etios)</option>
-                <option>SUV (Innova Crysta)</option>
-                <option>Tempo Traveller (12-17 Seat)</option>
-                <option>Minibus / Coach</option>
-                <option>Luxury Fleet</option>
+                <option>Sedan (Maruti Dzire / Toyota Etios)</option>
+                <option>SUV (Toyota Innova Crysta / Fortuner)</option>
+                <option>4x4 Mountain (Mahindra Scorpio / Thar)</option>
+                <option>Tempo Traveller (Force 12 / 17 / 26 Seat)</option>
+                <option>Luxury VIP (Audi / BMW / Fortuner Legender)</option>
+                <option>Minibus Coach (27 to 35 Seater)</option>
               </select>
             </div>
             <div className="flex flex-col justify-end">

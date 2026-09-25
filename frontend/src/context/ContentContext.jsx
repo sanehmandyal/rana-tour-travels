@@ -68,6 +68,7 @@ export function ContentProvider({ children }) {
         return {
           ...matched,
           ...item,
+          category: item.category || matched.category || "",
           image:
             item.image && item.image.trim() !== ""
               ? item.image
@@ -77,7 +78,12 @@ export function ContentProvider({ children }) {
           price: item.price || matched.price || "",
         };
       });
-      return { ...section, items: mergedItems };
+
+      // Also append any new default items that don't exist in section.items yet
+      const existingTitles = new Set(section.items.map((i) => i.title?.toLowerCase()));
+      const extraDefItems = defItems.filter((d) => !existingTitles.has(d.title?.toLowerCase()));
+
+      return { ...section, items: [...mergedItems, ...extraDefItems] };
     }
 
     // Smart merge for object sections (hero, about, settings)

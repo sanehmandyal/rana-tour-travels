@@ -116,13 +116,14 @@ export default function Enquiry() {
           </Field>
           <Field label="Vehicle Type">
             <select className="input" value={form.vehicleType} onChange={(e) => update("vehicleType", e.target.value)}>
-              <option value="">Select</option>
-              <option>Sedan</option>
-              <option>SUV</option>
-              <option>Minivan</option>
-              <option>Minibus</option>
-              <option>Luxury</option>
-              <option>Other</option>
+              <option value="">Select Vehicle</option>
+              <option>Sedan (Maruti Dzire / Toyota Etios)</option>
+              <option>SUV (Toyota Innova Crysta / Fortuner)</option>
+              <option>4x4 Mountain (Mahindra Scorpio / Thar)</option>
+              <option>Tempo Traveller (Force 12 / 17 / 26 Seat)</option>
+              <option>Luxury VIP (Audi / BMW / Fortuner Legender)</option>
+              <option>Tourist Minibus Coach (27 to 35 Seater)</option>
+              <option>Other / Custom Fleet</option>
             </select>
           </Field>
           <Field label="Trip Type">
